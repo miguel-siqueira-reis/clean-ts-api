@@ -1,9 +1,13 @@
 import { SignUpController } from './SignUpController';
 import { MissingParamError } from '../Errors/MissingParam';
 
+const makeSut = () => {
+    return new SignUpController();
+};
+
 describe('SignUpController', () => {
     it('should return 400 if no name is provided', () => {
-        const stu = new SignUpController();
+        const stu = makeSut();
         const req = {
             body: {
                 email: 'any_mail@mail.com',
@@ -18,7 +22,7 @@ describe('SignUpController', () => {
     });
 
     it('should return 400 if no mail is provided', () => {
-        const stu = new SignUpController();
+        const stu = makeSut();
         const req = {
             body: {
                 name: 'any_name',
@@ -33,7 +37,7 @@ describe('SignUpController', () => {
     });
 
     it('should return 400 if no password is provided', () => {
-        const stu = new SignUpController();
+        const stu = makeSut();
         const req = {
             body: {
                 name: 'any_name',
@@ -48,7 +52,7 @@ describe('SignUpController', () => {
     });
 
     it('should return 400 if no passwordConfirmation is provided', () => {
-        const stu = new SignUpController();
+        const stu = makeSut();
         const req = {
             body: {
                 name: 'any_name',
