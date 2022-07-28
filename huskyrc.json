@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-comit": "lint-steged"
+    "pre-comit": "lint-staged"
   }
 }
