@@ -28,6 +28,7 @@ module.exports = {
         'no-empty-function': 'off',
         'import/extensions': 'off',
         'import/no-unresolved': 'off',
+        'no-restricted-syntax': 'off',
     },
 };
 
