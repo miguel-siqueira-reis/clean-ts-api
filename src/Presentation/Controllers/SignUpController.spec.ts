@@ -1,11 +1,8 @@
 import { SignUpController } from './SignUpController';
 import { MissingParamError, InvalidParamError, ServerError } from '../Errors';
 import { EmailValidator } from '../Protocols';
-
-interface SutTypes {
-    sut: SignUpController;
-    emailValidatorStub: EmailValidator;
-}
+import { AddAccount, AddAccountModel } from '../../Domain/useCases/AddAccount';
+import { AccountModel } from '../../Domain/Models/Account';
 
 const makeEmailValidatorStub = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
@@ -16,13 +13,33 @@ const makeEmailValidatorStub = (): EmailValidator => {
     return new EmailValidatorStub();
 };
 
+const makeAddAccountStub = (): AddAccount => {
+    class EmailValidatorStub implements AddAccount {
+        public add(accout: AddAccountModel): AccountModel {
+            return {
+                id: 'valid_id',
+                ...accout,
+            };
+        }
+    }
+    return new EmailValidatorStub();
+};
+
+interface SutTypes {
+    sut: SignUpController;
+    emailValidatorStub: EmailValidator;
+    addAccountStub: AddAccount;
+}
+
 const makeSut = (): SutTypes => {
+    const addAccountStub = makeAddAccountStub();
     const emailValidatorStub = makeEmailValidatorStub();
-    const sut = new SignUpController(emailValidatorStub);
+    const sut = new SignUpController(emailValidatorStub, addAccountStub);
 
     return {
         sut,
         emailValidatorStub,
+        addAccountStub,
     };
 };
 
@@ -172,5 +189,30 @@ describe('SignUpController', () => {
 
         expect(response.statusCode).toBe(500);
         expect(response.body).toEqual(new ServerError());
+    });
+
+    it('should call AddAccount with correct params', () => {
+        const { sut, addAccountStub } = makeSut();
+
+        const addSpy = jest.spyOn(addAccountStub, 'add');
+
+        const req = {
+            body: {
+                name: 'any_name',
+                email: 'any_mail@mail.com',
+                password: 'any_password',
+                passwordConfirmation: 'any_password',
+            },
+        };
+
+        const { name, email, password } = req.body;
+
+        sut.handle(req);
+
+        expect(addSpy).toHaveBeenCalledWith({
+            name,
+            email,
+            password,
+        });
     });
 });
