@@ -29,6 +29,7 @@ module.exports = {
         'import/extensions': 'off',
         'import/no-unresolved': 'off',
         'no-restricted-syntax': 'off',
+        'max-classes-per-file': 'off',
     },
 };
 
