@@ -216,4 +216,26 @@ describe('SignUpController', () => {
             password,
         });
     });
+
+    it('should return 500 if AddAccount throws', () => {
+        const { sut, addAccountStub } = makeSut();
+
+        jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+            throw new Error();
+        });
+
+        const req = {
+            body: {
+                name: 'any_name',
+                email: 'any_mail@mail.com',
+                password: 'any_password',
+                passwordConfirmation: 'any_password',
+            },
+        };
+
+        const response = sut.handle(req);
+
+        expect(response.statusCode).toBe(500);
+        expect(response.body).toEqual(new ServerError());
+    });
 });
