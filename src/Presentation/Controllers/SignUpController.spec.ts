@@ -33,7 +33,7 @@ describe('SignUpController', () => {
             body: {
                 email: 'any_mail@mail.com',
                 password: 'any_password',
-                passwordConfirmation: 'any_passwordConfirmation',
+                passwordConfirmation: 'any_password',
             },
         };
 
@@ -49,7 +49,7 @@ describe('SignUpController', () => {
             body: {
                 name: 'any_name',
                 password: 'any_password',
-                passwordConfirmation: 'any_passwordConfirmation',
+                passwordConfirmation: 'any_password',
             },
         };
 
@@ -65,7 +65,7 @@ describe('SignUpController', () => {
             body: {
                 name: 'any_name',
                 email: 'any_mail@mail.com',
-                passwordConfirmation: 'any_passwordConfirmation',
+                passwordConfirmation: 'any_password',
             },
         };
 
@@ -93,6 +93,25 @@ describe('SignUpController', () => {
         );
     });
 
+    it('should return 400 if passwordConfirmation fails ', () => {
+        const { sut } = makeSut();
+        const req = {
+            body: {
+                name: 'any_name',
+                email: 'any_mail@mail.com',
+                password: 'any_password',
+                passwordConfirmation: 'invlid_password',
+            },
+        };
+
+        const response = sut.handle(req);
+
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual(
+            new InvalidParamError('passwordConfirmation'),
+        );
+    });
+
     it('should return 400 if an invalid mail is provided', () => {
         const { sut, emailValidatorStub } = makeSut();
 
@@ -103,7 +122,7 @@ describe('SignUpController', () => {
                 name: 'any_name',
                 email: 'ivalid_mail@mail.com',
                 password: 'any_password',
-                passwordConfirmation: 'any_passwordConfirmation',
+                passwordConfirmation: 'any_password',
             },
         };
 
@@ -125,7 +144,7 @@ describe('SignUpController', () => {
                 name: 'any_name',
                 email,
                 password: 'any_password',
-                passwordConfirmation: 'any_passwordConfirmation',
+                passwordConfirmation: 'any_password',
             },
         };
 
@@ -145,7 +164,7 @@ describe('SignUpController', () => {
                 name: 'any_name',
                 email: 'any_mail@mail.com',
                 password: 'any_password',
-                passwordConfirmation: 'any_passwordConfirmation',
+                passwordConfirmation: 'any_password',
             },
         };
 
