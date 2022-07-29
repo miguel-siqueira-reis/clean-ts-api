@@ -5,3 +5,4 @@ dist
 .gitignore
 yarn.lock
 package-lock.json
+coverage
