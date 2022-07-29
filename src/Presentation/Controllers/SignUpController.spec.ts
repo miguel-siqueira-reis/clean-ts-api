@@ -1,12 +1,13 @@
 import { SignUpController } from './SignUpController';
 import { MissingParamError, InvalidParamError, ServerError } from '../Errors';
-import { EmailValidator } from '../Protocols';
+import { EmailValidator } from '../Protocols/EmailValidator';
 import { AddAccount, AddAccountModel } from '../../Domain/useCases/AddAccount';
 import { AccountModel } from '../../Domain/Models/Account';
 
 const makeEmailValidatorStub = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
         isValid(email: string): boolean {
+            email.toString();
             return true;
         }
     }

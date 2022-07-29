@@ -1,9 +1,5 @@
-import {
-    HttpRequest,
-    HttpResponse,
-    Controller,
-    EmailValidator,
-} from '../Protocols';
+import { HttpRequest, HttpResponse, Controller } from '../Protocols';
+import { EmailValidator } from '../Protocols/EmailValidator';
 import { MissingParamError, InvalidParamError } from '../Errors';
 import { BadRequest, ServerErrorRequest } from '../Helpers/HttpHelper';
 import { AddAccount } from '../../Domain/useCases/AddAccount';
