@@ -30,6 +30,7 @@ module.exports = {
         'import/no-unresolved': 'off',
         'no-restricted-syntax': 'off',
         'max-classes-per-file': 'off',
+        'no-return-await': 'off',
     },
 };
 
