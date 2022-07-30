@@ -15,7 +15,7 @@ const makeEmailValidatorStub = (): EmailValidator => {
 };
 
 const makeAddAccountStub = (): AddAccount => {
-    class EmailValidatorStub implements AddAccount {
+    class AddAccountStub implements AddAccount {
         public async add(accout: AddAccountModel): Promise<AccountModel> {
             return Promise.resolve({
                 id: 'valid_id',
@@ -23,7 +23,7 @@ const makeAddAccountStub = (): AddAccount => {
             });
         }
     }
-    return new EmailValidatorStub();
+    return new AddAccountStub();
 };
 
 interface SutTypes {

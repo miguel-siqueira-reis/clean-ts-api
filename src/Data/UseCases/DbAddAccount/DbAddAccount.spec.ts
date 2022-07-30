@@ -1,5 +1,25 @@
 import { DbAddAccount } from './DbAddAccount';
-import { AddAccount, Encrypter } from './DbAddAccountProtocols';
+import {
+    AccountModel,
+    AddAccount,
+    AddAccountModel,
+    Encrypter,
+    AddAccountRepository,
+} from './DbAddAccountProtocols';
+
+const makeAddAccountRepositoryStub = (): AddAccountRepository => {
+    class AddAccountRepositoryStub implements AddAccountRepository {
+        async add(account: AddAccountModel): Promise<AccountModel> {
+            account.name.toString();
+            return Promise.resolve({
+                id: 'valid_id',
+                ...account,
+            });
+        }
+    }
+
+    return new AddAccountRepositoryStub();
+};
 
 const makeEncrypterStub = (): Encrypter => {
     class EncrypterStub implements Encrypter {
@@ -14,15 +34,18 @@ const makeEncrypterStub = (): Encrypter => {
 interface MakeSutType {
     sut: AddAccount;
     encrypterStub: Encrypter;
+    addAccountRepositoryStub: AddAccountRepository;
 }
 
 const makeSut = (): MakeSutType => {
+    const addAccountRepositoryStub = makeAddAccountRepositoryStub();
     const encrypterStub = makeEncrypterStub();
-    const sut = new DbAddAccount(encrypterStub);
+    const sut = new DbAddAccount(encrypterStub, addAccountRepositoryStub);
 
     return {
         sut,
         encrypterStub,
+        addAccountRepositoryStub,
     };
 };
 
@@ -52,5 +75,22 @@ describe('DbAddAccount', () => {
         });
 
         await expect(promise).rejects.toThrow();
+    });
+
+    it('should call AddAccountRepository with correct values', async () => {
+        const { sut, addAccountRepositoryStub } = makeSut();
+        const addRepositorySpy = jest.spyOn(addAccountRepositoryStub, 'add');
+
+        await sut.add({
+            name: 'valid_name',
+            email: 'valid_mail@mail.com',
+            password: 'valid_password',
+        });
+
+        expect(addRepositorySpy).toHaveBeenCalledWith({
+            name: 'valid_name',
+            email: 'valid_mail@mail.com',
+            password: 'hashed_password',
+        });
     });
 });
