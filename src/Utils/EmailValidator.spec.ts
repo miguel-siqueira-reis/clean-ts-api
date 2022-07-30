@@ -1,6 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import validator from 'validator';
-import { EmailValidatorAdapter } from './EmailValidator';
+import { EmailValidatorAdapter } from './EmailValidatorAdapter';
 
 jest.mock('validator', () => ({
     isEmail: jest.fn(() => true),
