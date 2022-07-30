@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 export * from './InvalidParamError';
 export * from './MissingParamError';
 export * from './ServerError';
