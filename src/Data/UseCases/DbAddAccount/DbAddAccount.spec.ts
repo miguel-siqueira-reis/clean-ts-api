@@ -1,6 +1,5 @@
-import { AddAccount } from '../../Domain/useCases/AddAccount';
 import { DbAddAccount } from './DbAddAccount';
-import { Encrypter } from '../Protocols/Encrypter';
+import { AddAccount, Encrypter } from './DbAddAccountProtocols';
 
 const makeEncrypterStub = (): Encrypter => {
     class EncrypterStub implements Encrypter {
@@ -38,5 +37,20 @@ describe('DbAddAccount', () => {
         });
 
         expect(encryptSpy).toHaveBeenCalledWith('valid_password');
+    });
+
+    it('should throw if Encrypter throw', async () => {
+        const { sut, encrypterStub } = makeSut();
+        jest.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(
+            Promise.reject(new Error()),
+        );
+
+        const promise = sut.add({
+            name: 'valid_name',
+            email: 'valid_mail@mail.com',
+            password: 'valid_password',
+        });
+
+        await expect(promise).rejects.toThrow();
     });
 });
