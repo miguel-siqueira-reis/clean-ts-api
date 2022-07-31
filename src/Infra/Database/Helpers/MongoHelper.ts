@@ -1,19 +1,22 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { MongoClient } from 'mongodb';
+import { MongoClient, Collection } from 'mongodb';
 
 export const MongoHelper = {
-    connection: null,
+    client: null as MongoClient,
 
     async connect(uri: string): Promise<void> {
-        this.connection = await MongoClient.connect(uri, {
+        this.client = await MongoClient.connect(uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
     },
 
     async disconnect(): Promise<void> {
-        await this.connection?.close();
-        this.connection = null;
+        await this.client?.close();
+    },
+
+    getCollection(name: string): Collection {
+        return this.client.db().collection(name);
     },
 };
