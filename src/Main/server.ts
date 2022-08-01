@@ -1,10 +1,16 @@
-import app from './config/app';
+import 'dotenv/config';
+import { Express } from 'express';
+import initDb from './config/db';
+/* eslint-disable */
 
-const PORT = 3333;
+initDb()
+    .then(async (_) => {
+        const app: Express = (await import('./config/app')).default;
 
-app.listen(PORT, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server running on port ${PORT}`);
-    // eslint-disable-next-line no-console
-    console.log(`Server running at http://localhost:${PORT}`);
-});
+        const { PORT } = process.env;
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+            console.log(`Server running at http://localhost:${PORT}`);
+        });
+    })
+    .catch((err) => console.log(err));
