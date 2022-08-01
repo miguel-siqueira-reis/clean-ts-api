@@ -4,7 +4,7 @@ import { DbAddAccount } from '../../Data/UseCases/DbAddAccount/DbAddAccount';
 import { BcryptAdapter } from '../../Infra/Criptography/BcryptAdapter';
 import { AccountRepository } from '../../Infra/Database/Repository/Account';
 
-export const makeSinUpController = (): SignUpController => {
+export const makeSignUpController = (): SignUpController => {
     const addAccount = new DbAddAccount(
         new BcryptAdapter(12),
         new AccountRepository(),
