@@ -31,6 +31,7 @@ module.exports = {
         'no-restricted-syntax': 'off',
         'max-classes-per-file': 'off',
         'no-return-await': 'off',
+        'no-unused-expressions': 'off',
     },
 };
 
