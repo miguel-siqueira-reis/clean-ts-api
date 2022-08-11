@@ -5,7 +5,6 @@ describe('Account mongo Repository', () => {
     beforeAll(async () => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        // eslint-disable-next-line no-underscore-dangle
         await MongoHelper.connect(process.env.MONGO_URL);
     });
 
@@ -14,7 +13,7 @@ describe('Account mongo Repository', () => {
     });
 
     beforeEach(async () => {
-        const accountCollection = MongoHelper.getCollection('accounts');
+        const accountCollection = await MongoHelper.getCollection('accounts');
         await accountCollection.deleteMany({});
     });
 
