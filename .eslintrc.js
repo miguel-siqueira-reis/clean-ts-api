@@ -32,6 +32,7 @@ module.exports = {
         'max-classes-per-file': 'off',
         'no-return-await': 'off',
         'no-unused-expressions': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
     },
 };
 
