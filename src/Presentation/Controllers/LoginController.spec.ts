@@ -144,4 +144,22 @@ describe('LoginController', () => {
             'any_password',
         );
     });
+
+    it('should returns 500 if Authenticate throws', async () => {
+        const { sut, authenticationStub } = makeSut();
+        jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => {
+            throw new Error();
+        });
+
+        const req = {
+            body: {
+                email: 'any_mail@mail.com',
+                password: 'any_password',
+            },
+        };
+
+        const httpResponse = await sut.handle(req);
+        expect(httpResponse.statusCode).toBe(500);
+        expect(httpResponse).toEqual(ServerErrorResponse(new Error()));
+    });
 });
