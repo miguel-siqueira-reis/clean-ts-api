@@ -95,8 +95,8 @@ describe('SignUpController', () => {
         const response = await sut.handle(req);
 
         expect(response.statusCode).toBe(400);
-        expect(response.body).toEqual(
-            new InvalidParamError('passwordConfirmation'),
+        expect(response).toEqual(
+            BadRequest(new InvalidParamError('passwordConfirmation')),
         );
     });
 
@@ -109,7 +109,7 @@ describe('SignUpController', () => {
         const response = await sut.handle(req);
 
         expect(response.statusCode).toBe(400);
-        expect(response.body).toEqual(new InvalidParamError('email'));
+        expect(response).toEqual(BadRequest(new InvalidParamError('email')));
     });
 
     it('should call EmailValidator with correct email', async () => {

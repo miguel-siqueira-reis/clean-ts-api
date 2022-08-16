@@ -3,7 +3,12 @@ import { ServerError, UnauthorizedError } from '../Errors/loginProtocols';
 
 export const BadRequest = (error: Error): HttpResponse => ({
     statusCode: 400,
-    body: error,
+    body: {
+        error: {
+            message: error?.message,
+            name: error.name,
+        },
+    },
 });
 
 export const ServerErrorResponse = (error: Error): HttpResponse => ({
