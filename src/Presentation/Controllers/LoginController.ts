@@ -6,12 +6,19 @@ import {
     Success,
 } from '../Helpers/HttpHelper';
 import { EmailValidator } from '../Protocols/EmailValidator';
+import { Authentication } from '../../Domain/useCases/Authentication';
 
 export class LoginController implements Controller {
     private readonly emailValidator: EmailValidator;
 
-    constructor(emailValidator: EmailValidator) {
+    private readonly authentication: Authentication;
+
+    constructor(
+        emailValidator: EmailValidator,
+        authentication: Authentication,
+    ) {
         this.emailValidator = emailValidator;
+        this.authentication = authentication;
     }
 
     async handle(req: HttpRequest): Promise<HttpResponse> {
@@ -23,12 +30,14 @@ export class LoginController implements Controller {
                 }
             }
 
-            const { email } = req.body;
+            const { email, password } = req.body;
 
             const isValidEmail = this.emailValidator.isValid(email);
             if (!isValidEmail) {
                 return BadRequest(new InvalidParamError('email'));
             }
+
+            await this.authentication.auth(email, password);
 
             return Success({});
         } catch (err) {
