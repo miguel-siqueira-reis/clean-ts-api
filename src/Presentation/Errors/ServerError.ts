@@ -1,4 +1,6 @@
 export class ServerError extends Error {
+    error;
+
     public readonly name = 'ServerError';
 
     constructor(stack?: string) {

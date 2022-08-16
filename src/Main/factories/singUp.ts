@@ -6,6 +6,7 @@ import { AccountRepository } from '../../Infra/Database/MongoDb/Repository/Accou
 import { Controller } from '../../Presentation/Protocols';
 import { LogControllerDecorator } from '../decorators/Log';
 import { LogRepository } from '../../Infra/Database/MongoDb/Repository/Log';
+import { makeSignUpValidation } from './singUpValidation';
 
 export const makeSignUpController = (): Controller => {
     const addAccount = new DbAddAccount(
@@ -15,6 +16,7 @@ export const makeSignUpController = (): Controller => {
     const signUpController = new SignUpController(
         new EmailValidatorAdapter(),
         addAccount,
+        makeSignUpValidation(),
     );
 
     return new LogControllerDecorator(signUpController, new LogRepository());
