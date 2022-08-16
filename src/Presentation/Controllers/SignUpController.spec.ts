@@ -4,6 +4,17 @@ import { EmailValidator } from '../Protocols/EmailValidator';
 import { AddAccount, AddAccountModel } from '../../Domain/useCases/AddAccount';
 import { AccountModel } from '../../Domain/Models/Account';
 import { HttpRequest } from '../Protocols';
+import { Validation } from '../Helpers/Validators/Validation';
+
+const makeValidationStub = (): Validation => {
+    class ValidationStub implements Validation {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        validate(input: any): Error | null {
+            return null;
+        }
+    }
+    return new ValidationStub();
+};
 
 const makeEmailValidatorStub = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
@@ -31,17 +42,24 @@ interface SutTypes {
     sut: SignUpController;
     emailValidatorStub: EmailValidator;
     addAccountStub: AddAccount;
+    validationStub: Validation;
 }
 
 const makeSut = (): SutTypes => {
+    const validationStub = makeValidationStub();
     const addAccountStub = makeAddAccountStub();
     const emailValidatorStub = makeEmailValidatorStub();
-    const sut = new SignUpController(emailValidatorStub, addAccountStub);
+    const sut = new SignUpController(
+        emailValidatorStub,
+        addAccountStub,
+        validationStub,
+    );
 
     return {
         sut,
         emailValidatorStub,
         addAccountStub,
+        validationStub,
     };
 };
 
@@ -221,5 +239,16 @@ describe('SignUpController', () => {
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual(makeFakeAccount());
+    });
+
+    it('should call Validation with correct params', async () => {
+        const { sut, validationStub } = makeSut();
+
+        const validateSpy = jest.spyOn(validationStub, 'validate');
+
+        const req = makeFakeRequest();
+        await sut.handle(req);
+
+        expect(validateSpy).toHaveBeenCalledWith(req.body);
     });
 });
