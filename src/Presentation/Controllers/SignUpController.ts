@@ -1,6 +1,6 @@
 import { HttpRequest, HttpResponse, Controller } from '../Protocols';
 import { EmailValidator } from '../Protocols/EmailValidator';
-import { MissingParamError, InvalidParamError } from '../Errors';
+import { InvalidParamError } from '../Errors';
 import {
     BadRequest,
     ServerErrorResponse,
@@ -31,18 +31,6 @@ export class SignUpController implements Controller {
             const error = this.validation.validate(req.body);
             if (error) {
                 return BadRequest(error);
-            }
-
-            const fieldsRequired = [
-                'name',
-                'email',
-                'password',
-                'passwordConfirmation',
-            ];
-            for (const field of fieldsRequired) {
-                if (!req.body[field]) {
-                    return BadRequest(new MissingParamError(field));
-                }
             }
 
             const { name, email, password, passwordConfirmation } = req.body;
