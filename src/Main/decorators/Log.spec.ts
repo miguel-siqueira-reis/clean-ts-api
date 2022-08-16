@@ -5,7 +5,11 @@ import {
     HttpResponse,
 } from '../../Presentation/Protocols';
 
-function makeSut() {
+interface SutTypes {
+    sut: LogControllerDecorator;
+    controllerStub: Controller;
+}
+const makeSut = (): SutTypes => {
     class ControllerStub implements Controller {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -24,7 +28,7 @@ function makeSut() {
         sut: new LogControllerDecorator(controllerStub),
         controllerStub,
     };
-}
+};
 
 describe('LogControllerDecorator', () => {
     it('should call handle method and provide correct params', () => {
