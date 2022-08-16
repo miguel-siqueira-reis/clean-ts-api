@@ -20,8 +20,6 @@ export class SignUpController implements Controller {
 
     public async handle(req: HttpRequest): Promise<HttpResponse> {
         try {
-            const { name, email, password, passwordConfirmation } = req.body;
-
             const fieldsRequired = [
                 'name',
                 'email',
@@ -33,6 +31,8 @@ export class SignUpController implements Controller {
                     return BadRequest(new MissingParamError(field));
                 }
             }
+
+            const { name, email, password, passwordConfirmation } = req.body;
 
             if (password !== passwordConfirmation) {
                 return BadRequest(
