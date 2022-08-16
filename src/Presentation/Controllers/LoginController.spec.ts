@@ -2,6 +2,7 @@ import { InvalidParamError, MissingParamError } from '../Errors';
 import { LoginController } from './LoginController';
 import { BadRequest, ServerErrorResponse } from '../Helpers/HttpHelper';
 import { EmailValidator } from '../Protocols/EmailValidator';
+import { Authentication } from '../../Domain/useCases/Authentication';
 
 const makeEmailValidatorStub = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
@@ -13,14 +14,26 @@ const makeEmailValidatorStub = (): EmailValidator => {
     return new EmailValidatorStub();
 };
 
+const makeAuthenticationStub = (): Authentication => {
+    class AuthenticateStub implements Authentication {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        async auth(email: string, password: string): Promise<string> {
+            return 'any_token';
+        }
+    }
+    return new AuthenticateStub();
+};
+
 interface SutTypes {
     sut: LoginController;
     emailValidatorStub: EmailValidator;
+    authenticationStub: Authentication;
 }
 const makeSut = (): SutTypes => {
+    const authenticationStub = makeAuthenticationStub();
     const emailValidatorStub = makeEmailValidatorStub();
-    const sut = new LoginController(emailValidatorStub);
-    return { sut, emailValidatorStub };
+    const sut = new LoginController(emailValidatorStub, authenticationStub);
+    return { sut, emailValidatorStub, authenticationStub };
 };
 
 describe('LoginController', () => {
@@ -54,7 +67,7 @@ describe('LoginController', () => {
         );
     });
 
-    it('should calls EmailValidator with Correct Params', async () => {
+    it('should calls EmailValidator with correct params', async () => {
         const { sut, emailValidatorStub } = makeSut();
         const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid');
         const req = {
@@ -113,5 +126,22 @@ describe('LoginController', () => {
 
         const httpResponse = await sut.handle(req);
         expect(httpResponse.statusCode).toBe(200);
+    });
+
+    it('should calls Authenticate with correct params', async () => {
+        const { sut, authenticationStub } = makeSut();
+        const authSpy = jest.spyOn(authenticationStub, 'auth');
+        const req = {
+            body: {
+                email: 'any_mail@mail.com',
+                password: 'any_password',
+            },
+        };
+
+        await sut.handle(req);
+        expect(authSpy).toHaveBeenCalledWith(
+            'any_mail@mail.com',
+            'any_password',
+        );
     });
 });
