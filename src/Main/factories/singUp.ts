@@ -5,6 +5,7 @@ import { BcryptAdapter } from '../../Infra/Criptography/BcryptAdapter';
 import { AccountRepository } from '../../Infra/Database/MongoDb/Repository/Account';
 import { Controller } from '../../Presentation/Protocols';
 import { LogControllerDecorator } from '../decorators/Log';
+import { LogRepository } from '../../Infra/Database/MongoDb/Repository/Log';
 
 export const makeSignUpController = (): Controller => {
     const addAccount = new DbAddAccount(
@@ -16,5 +17,5 @@ export const makeSignUpController = (): Controller => {
         addAccount,
     );
 
-    return new LogControllerDecorator(signUpController);
+    return new LogControllerDecorator(signUpController, new LogRepository());
 };
