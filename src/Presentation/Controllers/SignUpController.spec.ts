@@ -5,6 +5,7 @@ import { AddAccount, AddAccountModel } from '../../Domain/useCases/AddAccount';
 import { AccountModel } from '../../Domain/Models/Account';
 import { HttpRequest } from '../Protocols';
 import { Validation } from '../Helpers/Validators/Validation';
+import { BadRequest } from '../Helpers/HttpHelper';
 
 const makeValidationStub = (): Validation => {
     class ValidationStub implements Validation {
@@ -250,5 +251,21 @@ describe('SignUpController', () => {
         await sut.handle(req);
 
         expect(validateSpy).toHaveBeenCalledWith(req.body);
+    });
+
+    it('should return 400 if validation returns an error', async () => {
+        const { sut, validationStub } = makeSut();
+
+        jest.spyOn(validationStub, 'validate').mockReturnValueOnce(
+            new MissingParamError('any_field'),
+        );
+
+        const req = makeFakeRequest();
+        const response = await sut.handle(req);
+
+        expect(response.statusCode).toBe(400);
+        expect(response).toEqual(
+            BadRequest(new MissingParamError('any_field')),
+        );
     });
 });
