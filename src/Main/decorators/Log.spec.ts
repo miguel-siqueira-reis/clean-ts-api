@@ -13,7 +13,7 @@ import { LogErrorRepository } from '../../Data/Protocols/LogErrorRepository';
 const makeLogErrorRepository = (): LogErrorRepository => {
     class LogErrorRepositoryStub implements LogErrorRepository {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        async log(stack: string): Promise<void> {
+        async logError(stack: string): Promise<void> {
             return Promise.resolve();
         }
     }
@@ -85,7 +85,7 @@ describe('LogControllerDecorator', () => {
             Promise.resolve(ServerErrorResponse(fakeError)),
         );
 
-        const logSpy = jest.spyOn(logErrorRepository, 'log');
+        const logSpy = jest.spyOn(logErrorRepository, 'logError');
         const httpRequest: HttpRequest = {
             body: {
                 name: 'any_name',

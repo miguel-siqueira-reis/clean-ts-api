@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import request from 'supertest';
 import app from '../config/app';
-import { MongoHelper } from '../../Infra/Database/Helpers/MongoHelper';
+import { MongoHelper } from '../../Infra/Database/MongoDb/Helpers/MongoHelper';
 
 describe('SignUp', () => {
     beforeAll(async () => {
