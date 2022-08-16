@@ -4,7 +4,10 @@ import {
     HttpRequest,
     HttpResponse,
 } from '../../Presentation/Protocols';
-import { ServerErrorResponse } from '../../Presentation/Helpers/HttpHelper';
+import {
+    ServerErrorResponse,
+    Success,
+} from '../../Presentation/Helpers/HttpHelper';
 import { LogErrorRepository } from '../../Data/Protocols/LogErrorRepository';
 
 const makeLogErrorRepository = (): LogErrorRepository => {
@@ -22,12 +25,7 @@ const makeControllerStub = (): Controller => {
     class ControllerStub implements Controller {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-            return {
-                statusCode: 200,
-                body: {
-                    name: 'any_name',
-                },
-            };
+            return Success({});
         }
     }
     return new ControllerStub();
@@ -76,12 +74,7 @@ describe('LogControllerDecorator', () => {
             },
         };
         const httpResponse = await sut.handle(httpRequest);
-        expect(httpResponse).toEqual({
-            statusCode: 200,
-            body: {
-                name: 'any_name',
-            },
-        });
+        expect(httpResponse).toEqual(Success({}));
     });
 
     it('should call logErrorRepository with correct error if controller return server error', async () => {
