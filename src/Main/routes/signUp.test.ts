@@ -5,8 +5,6 @@ import { MongoHelper } from '../../Infra/Database/MongoDb/Helpers/MongoHelper';
 
 describe('SignUp', () => {
     beforeAll(async () => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         await MongoHelper.connect(process.env.MONGO_URL);
     });
 
