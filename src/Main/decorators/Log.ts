@@ -13,9 +13,9 @@ export class LogControllerDecorator implements Controller {
 
     async handle(request: HttpRequest): Promise<HttpResponse> {
         const httpResponse = await this.controller.handle(request);
-        if (httpResponse.statusCode === 500) {
+        if (httpResponse.statusCode !== 200) {
             // eslint-disable-next-line no-console
-            console.error(httpResponse.body.message);
+            console.error(httpResponse);
         }
 
         return httpResponse;

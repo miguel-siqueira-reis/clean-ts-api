@@ -48,8 +48,8 @@ export class SignUpController implements Controller {
             });
 
             return Success(account);
-        } catch (e) {
-            return ServerErrorRequest();
+        } catch (err) {
+            return ServerErrorRequest(err as Error);
         }
     }
 }
