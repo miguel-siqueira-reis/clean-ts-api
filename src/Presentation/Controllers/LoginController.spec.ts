@@ -1,6 +1,10 @@
 import { InvalidParamError, MissingParamError } from '../Errors';
 import { LoginController } from './LoginController';
-import { BadRequest, ServerErrorResponse } from '../Helpers/HttpHelper';
+import {
+    BadRequest,
+    ServerErrorResponse,
+    Unauthorized,
+} from '../Helpers/HttpHelper';
 import { EmailValidator } from '../Protocols/EmailValidator';
 import { Authentication } from '../../Domain/useCases/Authentication';
 
@@ -17,7 +21,7 @@ const makeEmailValidatorStub = (): EmailValidator => {
 const makeAuthenticationStub = (): Authentication => {
     class AuthenticateStub implements Authentication {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        async auth(email: string, password: string): Promise<string> {
+        async auth(email: string, password: string): Promise<string | null> {
             return 'any_token';
         }
     }
@@ -161,5 +165,23 @@ describe('LoginController', () => {
         const httpResponse = await sut.handle(req);
         expect(httpResponse.statusCode).toBe(500);
         expect(httpResponse).toEqual(ServerErrorResponse(new Error()));
+    });
+
+    it('should returns 401 if Authenticate throws when invalid credentials are provided', async () => {
+        const { sut, authenticationStub } = makeSut();
+        jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
+            Promise.resolve(null),
+        );
+
+        const req = {
+            body: {
+                email: 'unauthorized_mail@mail.com',
+                password: 'unauthorized_password',
+            },
+        };
+
+        const httpResponse = await sut.handle(req);
+        expect(httpResponse.statusCode).toBe(401);
+        expect(httpResponse).toEqual(Unauthorized());
     });
 });
