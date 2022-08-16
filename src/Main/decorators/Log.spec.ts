@@ -4,12 +4,21 @@ import {
     HttpRequest,
     HttpResponse,
 } from '../../Presentation/Protocols';
+import { ServerErrorResponse } from '../../Presentation/Helpers/HttpHelper';
+import { LogErrorRepository } from '../../Data/Protocols/LogErrorRepository';
 
-interface SutTypes {
-    sut: LogControllerDecorator;
-    controllerStub: Controller;
-}
-const makeSut = (): SutTypes => {
+const makeLogErrorRepository = (): LogErrorRepository => {
+    class LogErrorRepositoryStub implements LogErrorRepository {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        async log(stack: string): Promise<void> {
+            return Promise.resolve();
+        }
+    }
+
+    return new LogErrorRepositoryStub();
+};
+
+const makeControllerStub = (): Controller => {
     class ControllerStub implements Controller {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -21,12 +30,21 @@ const makeSut = (): SutTypes => {
             };
         }
     }
+    return new ControllerStub();
+};
 
-    const controllerStub = new ControllerStub();
-
+interface SutTypes {
+    sut: LogControllerDecorator;
+    controllerStub: Controller;
+    logErrorRepository: LogErrorRepository;
+}
+const makeSut = (): SutTypes => {
+    const controllerStub = makeControllerStub();
+    const logErrorRepository = makeLogErrorRepository();
     return {
-        sut: new LogControllerDecorator(controllerStub),
+        sut: new LogControllerDecorator(controllerStub, logErrorRepository),
         controllerStub,
+        logErrorRepository,
     };
 };
 
@@ -64,5 +82,27 @@ describe('LogControllerDecorator', () => {
                 name: 'any_name',
             },
         });
+    });
+
+    it('should call logErrorRepository with correct error if controller return server error', async () => {
+        const { sut, controllerStub, logErrorRepository } = makeSut();
+        const fakeError = new Error('any_error');
+        fakeError.stack = 'any_stack';
+        jest.spyOn(controllerStub, 'handle').mockReturnValueOnce(
+            Promise.resolve(ServerErrorResponse(fakeError)),
+        );
+
+        const logSpy = jest.spyOn(logErrorRepository, 'log');
+        const httpRequest: HttpRequest = {
+            body: {
+                name: 'any_name',
+                email: 'mail@mail.com',
+                password: 'any_password',
+                passwordConfirmation: 'any_password',
+            },
+        };
+
+        await sut.handle(httpRequest);
+        expect(logSpy).toHaveBeenCalledWith('any_stack');
     });
 });
