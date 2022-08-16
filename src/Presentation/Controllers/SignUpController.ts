@@ -49,8 +49,6 @@ export class SignUpController implements Controller {
 
             return Success(account);
         } catch (e) {
-            // eslint-disable-next-line no-console
-            console.error(e);
             return ServerErrorRequest();
         }
     }
