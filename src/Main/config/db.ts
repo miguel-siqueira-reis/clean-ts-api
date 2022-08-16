@@ -1,4 +1,4 @@
-import { MongoHelper } from '../../Infra/Database/Helpers/MongoHelper';
+import { MongoHelper } from '../../Infra/Database/MongoDb/Helpers/MongoHelper';
 
 export default async function initDb() {
     const { MONGODB_HOST, MONGODB_PORT, MONGODB_DB } = process.env;
