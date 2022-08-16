@@ -1,7 +1,11 @@
 import { HttpRequest, HttpResponse, Controller } from '../Protocols';
 import { EmailValidator } from '../Protocols/EmailValidator';
 import { MissingParamError, InvalidParamError } from '../Errors';
-import { BadRequest, ServerErrorRequest, Success } from '../Helpers/HttpHelper';
+import {
+    BadRequest,
+    ServerErrorResponse,
+    Success,
+} from '../Helpers/HttpHelper';
 import { AddAccount } from '../../Domain/useCases/AddAccount';
 
 export class SignUpController implements Controller {
@@ -49,7 +53,7 @@ export class SignUpController implements Controller {
 
             return Success(account);
         } catch (err) {
-            return ServerErrorRequest(err as Error);
+            return ServerErrorResponse(err as Error);
         }
     }
 }
