@@ -81,25 +81,6 @@ const makeFakeRequest = (): HttpRequest => ({
 });
 
 describe('SignUpController', () => {
-    it('should return 400 if passwordConfirmation fails ', async () => {
-        const { sut } = makeSut();
-
-        const req = {
-            body: {
-                name: 'any_name',
-                email: 'any_mail@mail.com',
-                password: 'any_password',
-                passwordConfirmation: 'invlid_password',
-            },
-        };
-        const response = await sut.handle(req);
-
-        expect(response.statusCode).toBe(400);
-        expect(response).toEqual(
-            BadRequest(new InvalidParamError('passwordConfirmation')),
-        );
-    });
-
     it('should return 400 if an invalid mail is provided', async () => {
         const { sut, emailValidatorStub } = makeSut();
 
