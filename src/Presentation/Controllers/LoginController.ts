@@ -6,37 +6,27 @@ import {
     Success,
     Unauthorized,
 } from '../Helpers/HttpHelper';
-import { EmailValidator } from '../Protocols/EmailValidator';
 import { Authentication } from '../../Domain/useCases/Authentication';
+import { Validation } from '../Helpers/Validators/Validation';
 
 export class LoginController implements Controller {
-    private readonly emailValidator: EmailValidator;
-
     private readonly authentication: Authentication;
 
-    constructor(
-        emailValidator: EmailValidator,
-        authentication: Authentication,
-    ) {
-        this.emailValidator = emailValidator;
+    public readonly validation: Validation;
+
+    constructor(authentication: Authentication, validation: Validation) {
         this.authentication = authentication;
+        this.validation = validation;
     }
 
     async handle(req: HttpRequest): Promise<HttpResponse> {
         try {
-            const fieldsRequired = ['email', 'password'];
-            for (const field of fieldsRequired) {
-                if (!req.body[field]) {
-                    return BadRequest(new MissingParamError(field));
-                }
+            const error = this.validation.validate(req.body);
+            if (error) {
+                return BadRequest(error);
             }
 
             const { email, password } = req.body;
-
-            const isValidEmail = this.emailValidator.isValid(email);
-            if (!isValidEmail) {
-                return BadRequest(new InvalidParamError('email'));
-            }
 
             const token = await this.authentication.auth(email, password);
             if (!token) {
