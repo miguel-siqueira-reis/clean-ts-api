@@ -1,5 +1,4 @@
 import { Controller, HttpRequest, HttpResponse } from '../Protocols';
-import { InvalidParamError, MissingParamError } from '../Errors';
 import {
     BadRequest,
     ServerErrorResponse,
