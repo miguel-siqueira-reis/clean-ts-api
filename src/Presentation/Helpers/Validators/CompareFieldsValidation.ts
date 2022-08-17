@@ -1,7 +1,7 @@
 import { Validation } from './Validation';
 import { InvalidParamError } from '../../Errors';
 
-export class CompareFieldsValidator implements Validation {
+export class CompareFieldsValidation implements Validation {
     constructor(
         private readonly fieldName: string,
         private readonly fieldToCompareName: string,

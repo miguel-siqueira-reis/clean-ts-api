@@ -1,5 +1,4 @@
 import { HttpRequest, HttpResponse, Controller } from '../Protocols';
-import { EmailValidator } from '../Protocols/EmailValidator';
 import { InvalidParamError } from '../Errors';
 import {
     BadRequest,
@@ -10,18 +9,11 @@ import { AddAccount } from '../../Domain/useCases/AddAccount';
 import { Validation } from '../Helpers/Validators/Validation';
 
 export class SignUpController implements Controller {
-    private readonly emailValidator: EmailValidator;
-
     private readonly addAccount: AddAccount;
 
     private readonly validation: Validation;
 
-    constructor(
-        emailValidator: EmailValidator,
-        addAccount: AddAccount,
-        validation: Validation,
-    ) {
-        this.emailValidator = emailValidator;
+    constructor(addAccount: AddAccount, validation: Validation) {
         this.addAccount = addAccount;
         this.validation = validation;
     }
@@ -34,11 +26,6 @@ export class SignUpController implements Controller {
             }
 
             const { name, email, password } = req.body;
-
-            const isEmailValid = this.emailValidator.isValid(email);
-            if (!isEmailValid) {
-                return BadRequest(new InvalidParamError('email'));
-            }
 
             const account = await this.addAccount.add({
                 name,

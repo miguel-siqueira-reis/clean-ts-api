@@ -1,5 +1,4 @@
 import { SignUpController } from '../../Presentation/Controllers/SignUpController';
-import { EmailValidatorAdapter } from '../../Utils/EmailValidatorAdapter';
 import { DbAddAccount } from '../../Data/UseCases/DbAddAccount/DbAddAccount';
 import { BcryptAdapter } from '../../Infra/Criptography/BcryptAdapter';
 import { AccountRepository } from '../../Infra/Database/MongoDb/Repository/Account';
@@ -14,7 +13,6 @@ export const makeSignUpController = (): Controller => {
         new AccountRepository(),
     );
     const signUpController = new SignUpController(
-        new EmailValidatorAdapter(),
         addAccount,
         makeSignUpValidation(),
     );
