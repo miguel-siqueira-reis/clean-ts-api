@@ -3,7 +3,7 @@ import { MissingParamError, ServerError } from '../Errors';
 import { AddAccount, AddAccountModel } from '../../Domain/useCases/AddAccount';
 import { AccountModel } from '../../Domain/Models/Account';
 import { HttpRequest } from '../Protocols';
-import { Validation } from '../Helpers/Validators/Validation';
+import { Validation } from '../Protocols/Validation';
 import { BadRequest } from '../Helpers/HttpHelper';
 
 const makeValidationStub = (): Validation => {

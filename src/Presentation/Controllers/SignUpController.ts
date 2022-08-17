@@ -6,7 +6,7 @@ import {
     Success,
 } from '../Helpers/HttpHelper';
 import { AddAccount } from '../../Domain/useCases/AddAccount';
-import { Validation } from '../Helpers/Validators/Validation';
+import { Validation } from '../Protocols/Validation';
 
 export class SignUpController implements Controller {
     private readonly addAccount: AddAccount;

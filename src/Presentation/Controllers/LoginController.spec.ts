@@ -5,7 +5,7 @@ import {
     Unauthorized,
 } from '../Helpers/HttpHelper';
 import { Authentication } from '../../Domain/useCases/Authentication';
-import { Validation } from '../Helpers/Validators/Validation';
+import { Validation } from '../Protocols/Validation';
 import { MissingParamError } from '../Errors';
 import { HttpRequest } from '../Protocols';
 
