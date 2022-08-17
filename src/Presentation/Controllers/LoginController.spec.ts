@@ -4,7 +4,10 @@ import {
     ServerErrorResponse,
     Unauthorized,
 } from '../Helpers/HttpHelper';
-import { Authentication } from '../../Domain/useCases/Authentication';
+import {
+    Authentication,
+    AuthenticationData,
+} from '../../Domain/useCases/Authentication';
 import { Validation } from '../Protocols/Validation';
 import { MissingParamError } from '../Errors';
 import { HttpRequest } from '../Protocols';
@@ -29,7 +32,7 @@ const makeValidationStub = (): Validation => {
 const makeAuthenticationStub = (): Authentication => {
     class AuthenticateStub implements Authentication {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        async auth(email: string, password: string): Promise<string | null> {
+        async auth(authentication: AuthenticationData): Promise<string | null> {
             return 'any_token';
         }
     }
@@ -90,10 +93,10 @@ describe('LoginController', () => {
         const req = makeFakeRequest();
 
         await sut.handle(req);
-        expect(authSpy).toHaveBeenCalledWith(
-            'any_mail@mail.com',
-            'any_password',
-        );
+        expect(authSpy).toHaveBeenCalledWith({
+            email: 'any_mail@mail.com',
+            password: 'any_password',
+        });
     });
 
     it('should returns 500 if Authenticate throws', async () => {

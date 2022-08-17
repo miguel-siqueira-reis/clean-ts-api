@@ -1,3 +1,8 @@
+export interface AuthenticationData {
+    email: string;
+    password: string;
+}
+
 export interface Authentication {
-    auth(email: string, password: string): Promise<string | null>;
+    auth(authentication: AuthenticationData): Promise<string | null>;
 }
