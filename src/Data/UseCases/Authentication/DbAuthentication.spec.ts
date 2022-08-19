@@ -12,7 +12,7 @@ const makeLoadAccountByEmailRepositoryStub =
             implements LoadAccountByEmailRepository
         {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            async load(email: string): Promise<AccountModel> {
+            async load(email: string): Promise<AccountModel | null> {
                 return new Promise((resolve) => {
                     resolve({
                         id: 'any_id',
@@ -68,7 +68,17 @@ describe('DbAuthentication UseCase', () => {
         );
 
         const promise = sut.auth(makeFakeAuthenticationData());
-
         await expect(promise).rejects.toThrow();
+    });
+
+    it('should return null if LoadAccountByEmailRepository returns null', async () => {
+        const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+        jest.spyOn(
+            loadAccountByEmailRepositoryStub,
+            'load',
+        ).mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+
+        const accesToken = await sut.auth(makeFakeAuthenticationData());
+        expect(accesToken).toBeNull();
     });
 });

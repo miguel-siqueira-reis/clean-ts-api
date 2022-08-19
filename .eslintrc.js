@@ -33,6 +33,7 @@ module.exports = {
         'no-return-await': 'off',
         'no-unused-expressions': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
+        'no-promise-executor-return': 'off',
     },
 };
 
