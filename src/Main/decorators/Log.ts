@@ -3,7 +3,7 @@ import {
     HttpRequest,
     HttpResponse,
 } from '../../Presentation/Protocols';
-import { LogErrorRepository } from '../../Data/Protocols/LogErrorRepository';
+import { LogErrorRepository } from '../../Data/Protocols/Database/LogErrorRepository';
 
 export class LogControllerDecorator implements Controller {
     private readonly controller: Controller;

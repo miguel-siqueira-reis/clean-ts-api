@@ -2,7 +2,7 @@ import {
     Authentication,
     AuthenticationData,
 } from '../../../Domain/useCases/Authentication';
-import { LoadAccountByEmailRepository } from '../../Protocols/LoadAccountByEmailRepository';
+import { LoadAccountByEmailRepository } from '../../Protocols/Database/LoadAccountByEmailRepository';
 
 export class DbAuthentication implements Authentication {
     constructor(

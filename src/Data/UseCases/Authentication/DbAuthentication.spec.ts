@@ -4,7 +4,7 @@ import {
 } from '../../../Domain/useCases/Authentication';
 import { AccountModel } from '../../../Domain/Models/Account';
 import { DbAuthentication } from './DbAuthentication';
-import { LoadAccountByEmailRepository } from '../../Protocols/LoadAccountByEmailRepository';
+import { LoadAccountByEmailRepository } from '../../Protocols/Database/LoadAccountByEmailRepository';
 
 const makeLoadAccountByEmailRepositoryStub =
     (): LoadAccountByEmailRepository => {
