@@ -40,7 +40,7 @@ const makeEncrypterStub = (): Encrypter => {
 const makeHashComparerStub = (): HashComparer => {
     class HashComparerStub implements HashComparer {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        async compare(password: string, hash: string): Promise<boolean> {
+        async compare(value: string, hash: string): Promise<boolean> {
             return new Promise((resolve) => {
                 resolve(true);
             });
