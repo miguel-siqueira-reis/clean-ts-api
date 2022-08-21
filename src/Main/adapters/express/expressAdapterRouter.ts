@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, HttpRequest } from '../../Presentation/Protocols';
+import { Controller, HttpRequest } from '../../../Presentation/Protocols';
 
 export const adapterRouter = (controller: Controller) => {
     return async (req: Request, res: Response) => {
