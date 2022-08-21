@@ -28,7 +28,7 @@ export class DbAuthentication implements Authentication {
             );
             if (comparePassword) {
                 const token = await this.encrypter.encrypt(account.id);
-                await this.updateAccessTokenRepository.update(
+                await this.updateAccessTokenRepository.updateAccessToken(
                     account.id,
                     token,
                 );
