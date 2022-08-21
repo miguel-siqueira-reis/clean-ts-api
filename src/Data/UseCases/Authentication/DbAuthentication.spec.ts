@@ -1,13 +1,13 @@
+import { DbAuthentication } from './DbAuthentication';
 import {
     Authentication,
     AuthenticationData,
-} from '../../../Domain/useCases/Authentication';
-import { AccountModel } from '../../../Domain/Models/Account';
-import { DbAuthentication } from './DbAuthentication';
-import { LoadAccountByEmailRepository } from '../../Protocols/Database/LoadAccountByEmailRepository';
-import { HashComparer } from '../../Protocols/Criptography/HashComparer';
-import { TokenGenerator } from '../../Protocols/Criptography/TokenGenerator';
-import { UpdateAccessTokenRepository } from '../../Protocols/Database/UpdateAccessTokenRepository';
+    AccountModel,
+    LoadAccountByEmailRepository,
+    HashComparer,
+    TokenGenerator,
+    UpdateAccessTokenRepository,
+} from './DbAtuhenticationProtocols';
 
 const makeUpdateAccessTokenRepositoryStub = (): UpdateAccessTokenRepository => {
     class UpdateAccessTokenRepositoryStub
