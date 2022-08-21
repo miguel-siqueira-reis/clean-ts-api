@@ -8,7 +8,7 @@ import { AccountRepository } from '../../../Infra/Database/MongoDb/Repository/Ac
 import { BcryptAdapter } from '../../../Infra/Criptography/BcryptAdapter/BcryptAdapter';
 import { JwtAdatper } from '../../../Infra/Criptography/JwtAdapter/JwtAdatper';
 
-export const makeLoginFactory = (): Controller => {
+export const makeLoginController = (): Controller => {
     const accountRepository = new AccountRepository();
     const hashComparer = new BcryptAdapter(12);
     const encrypter = new JwtAdatper(process.env.JWT_SECRET as string);
