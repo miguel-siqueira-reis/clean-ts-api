@@ -9,14 +9,10 @@ import { Authentication } from '../../../Domain/useCases/Authentication';
 import { Validation } from '../../Protocols/Validation';
 
 export class LoginController implements Controller {
-    private readonly authentication: Authentication;
-
-    public readonly validation: Validation;
-
-    constructor(authentication: Authentication, validation: Validation) {
-        this.authentication = authentication;
-        this.validation = validation;
-    }
+    constructor(
+        private readonly authentication: Authentication,
+        private readonly validation: Validation,
+    ) {}
 
     async handle(req: HttpRequest): Promise<HttpResponse> {
         try {
