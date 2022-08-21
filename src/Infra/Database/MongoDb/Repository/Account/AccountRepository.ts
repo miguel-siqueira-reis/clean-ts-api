@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb';
-import { AddAccountRepository } from '../../../../Data/Protocols/Database/AddAccountRepository';
-import { AddAccountModel } from '../../../../Domain/useCases/AddAccount';
-import { AccountModel } from '../../../../Domain/Models/Account';
-import { MongoHelper } from '../Helpers/MongoHelper';
-import { LoadAccountByEmailRepository } from '../../../../Data/Protocols/Database/LoadAccountByEmailRepository';
-import { UpdateAccessTokenRepository } from '../../../../Data/Protocols/Database/UpdateAccessTokenRepository';
+import { AddAccountRepository } from '../../../../../Data/Protocols/Database/Account/AddAccountRepository';
+import { AddAccountModel } from '../../../../../Domain/useCases/AddAccount';
+import { AccountModel } from '../../../../../Domain/Models/Account';
+import { MongoHelper } from '../../Helpers/MongoHelper';
+import { LoadAccountByEmailRepository } from '../../../../../Data/Protocols/Database/Account/LoadAccountByEmailRepository';
+import { UpdateAccessTokenRepository } from '../../../../../Data/Protocols/Database/Account/UpdateAccessTokenRepository';
 
 export class AccountRepository
     implements

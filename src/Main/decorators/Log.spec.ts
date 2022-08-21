@@ -8,7 +8,7 @@ import {
     ServerErrorResponse,
     Success,
 } from '../../Presentation/Helpers/HttpHelper';
-import { LogErrorRepository } from '../../Data/Protocols/Database/LogErrorRepository';
+import { LogErrorRepository } from '../../Data/Protocols/Database/Log/LogErrorRepository';
 
 const makeLogErrorRepository = (): LogErrorRepository => {
     class LogErrorRepositoryStub implements LogErrorRepository {

@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb';
 import { AccountRepository } from './AccountRepository';
-import { MongoHelper } from '../Helpers/MongoHelper';
-import { AccountModel } from '../../../../Domain/Models/Account';
+import { MongoHelper } from '../../Helpers/MongoHelper';
+import { AccountModel } from '../../../../../Domain/Models/Account';
 
 const makeFakeAccount = (): Omit<AccountModel, 'id'> => ({
     name: 'any_name',
