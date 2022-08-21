@@ -1,6 +1,13 @@
 import { Collection } from 'mongodb';
 import { AccountRepository } from './Account';
 import { MongoHelper } from '../Helpers/MongoHelper';
+import { AccountModel } from '../../../../Domain/Models/Account';
+
+const makeFakeAccount = (): Omit<AccountModel, 'id'> => ({
+    name: 'any_name',
+    email: 'any_mail@mail.com',
+    password: 'any_password',
+});
 
 let accountCollection: Collection;
 
@@ -22,11 +29,8 @@ describe('Account mongo Repository', () => {
 
     it('should return Account on success', async () => {
         const sut = new AccountRepository();
-        const data = {
-            name: 'any_name',
-            email: 'any_mail@mail.com',
-            password: 'any_password',
-        };
+
+        const data = makeFakeAccount();
         const account = await sut.add(data);
 
         expect(account).toBeTruthy();
@@ -38,11 +42,8 @@ describe('Account mongo Repository', () => {
 
     it('should return an account on loadByEmail success', async () => {
         const sut = new AccountRepository();
-        const data = {
-            name: 'any_name',
-            email: 'any_mail@mail.com',
-            password: 'any_password',
-        };
+
+        const data = makeFakeAccount();
         await accountCollection.insertOne(data);
         const account = await sut.loadByEmail('any_mail@mail.com');
 
@@ -55,11 +56,8 @@ describe('Account mongo Repository', () => {
 
     it('should return null if loadByEmail fails', async () => {
         const sut = new AccountRepository();
-        const data = {
-            name: 'any_name',
-            email: 'any_mail@mail.com',
-            password: 'any_password',
-        };
+
+        const data = makeFakeAccount();
         const account = await sut.loadByEmail(data.email);
 
         expect(account).toBeFalsy();
