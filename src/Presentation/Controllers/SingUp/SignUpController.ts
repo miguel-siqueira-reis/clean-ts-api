@@ -1,11 +1,11 @@
-import { HttpRequest, HttpResponse, Controller } from '../Protocols';
+import { HttpRequest, HttpResponse, Controller } from '../../Protocols';
 import {
     BadRequest,
     ServerErrorResponse,
     Success,
-} from '../Helpers/HttpHelper';
-import { AddAccount } from '../../Domain/useCases/AddAccount';
-import { Validation } from '../Protocols/Validation';
+} from '../../Helpers/HttpHelper';
+import { AddAccount } from '../../../Domain/useCases/AddAccount';
+import { Validation } from '../../Protocols/Validation';
 
 export class SignUpController implements Controller {
     private readonly addAccount: AddAccount;

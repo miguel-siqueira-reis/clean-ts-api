@@ -1,9 +1,9 @@
-import { SignUpController } from '../../../Presentation/Controllers/SignUpController';
+import { SignUpController } from '../../../Presentation/Controllers/SingUp/SignUpController';
 import { DbAddAccount } from '../../../Data/UseCases/DbAddAccount/DbAddAccount';
 import { BcryptAdapter } from '../../../Infra/Criptography/BcryptAdapter/BcryptAdapter';
 import { AccountRepository } from '../../../Infra/Database/MongoDb/Repository/Account/AccountRepository';
 import { Controller } from '../../../Presentation/Protocols';
-import { LogControllerDecorator } from '../../decorators/Log';
+import { LogControllerDecorator } from '../../decorators/LogDecorator';
 import { LogRepository } from '../../../Infra/Database/MongoDb/Repository/Log/LogRepository';
 import { makeSignUpValidation } from './singUpValidation';
 

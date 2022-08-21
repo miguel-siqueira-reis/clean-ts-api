@@ -3,14 +3,14 @@ import {
     BadRequest,
     ServerErrorResponse,
     Unauthorized,
-} from '../Helpers/HttpHelper';
+} from '../../Helpers/HttpHelper';
 import {
     Authentication,
     AuthenticationData,
-} from '../../Domain/useCases/Authentication';
-import { Validation } from '../Protocols/Validation';
-import { MissingParamError } from '../Errors';
-import { HttpRequest } from '../Protocols';
+} from '../../../Domain/useCases/Authentication';
+import { Validation } from '../../Protocols/Validation';
+import { MissingParamError } from '../../Errors';
+import { HttpRequest } from '../../Protocols';
 
 const makeFakeRequest = (): HttpRequest => ({
     body: {

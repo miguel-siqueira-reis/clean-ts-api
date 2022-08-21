@@ -1,12 +1,12 @@
-import { Controller, HttpRequest, HttpResponse } from '../Protocols';
+import { Controller, HttpRequest, HttpResponse } from '../../Protocols';
 import {
     BadRequest,
     ServerErrorResponse,
     Success,
     Unauthorized,
-} from '../Helpers/HttpHelper';
-import { Authentication } from '../../Domain/useCases/Authentication';
-import { Validation } from '../Protocols/Validation';
+} from '../../Helpers/HttpHelper';
+import { Authentication } from '../../../Domain/useCases/Authentication';
+import { Validation } from '../../Protocols/Validation';
 
 export class LoginController implements Controller {
     private readonly authentication: Authentication;
