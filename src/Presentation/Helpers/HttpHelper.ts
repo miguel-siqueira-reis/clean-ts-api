@@ -5,7 +5,7 @@ export const BadRequest = (error: Error): HttpResponse => ({
     statusCode: 400,
     body: {
         error: {
-            message: error?.message,
+            message: error.message,
             name: error.name,
         },
     },

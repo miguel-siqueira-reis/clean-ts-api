@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 export * from '../../../Domain/useCases/Authentication';
 export * from '../../../Domain/Models/Account';
 export * from '../../Protocols/Database/Account/LoadAccountByEmailRepository';
