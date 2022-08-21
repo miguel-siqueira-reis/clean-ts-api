@@ -1,13 +1,17 @@
 import jwt from 'jsonwebtoken';
 import { JwtAdatper } from './JwtAdatper';
 
+const makeSut = (): JwtAdatper => {
+    return new JwtAdatper('secret');
+};
+
 jest.mock('jsonwebtoken', () => ({
     sign: (): Promise<string> => Promise.resolve('any_token'),
 }));
 
 describe('JwtAdapter', () => {
     it('should call sign with correct params', async () => {
-        const sut = new JwtAdatper('secret');
+        const sut = makeSut();
         const signSpy = jest.spyOn(jwt, 'sign');
 
         await sut.encrypt('any_id');
@@ -15,14 +19,14 @@ describe('JwtAdapter', () => {
     });
 
     it('should return token on success', async () => {
-        const sut = new JwtAdatper('secret');
+        const sut = makeSut();
 
         const token = await sut.encrypt('any_id');
         expect(token).toBe('any_token');
     });
 
     it('should throw if sign throws', async () => {
-        const sut = new JwtAdatper('secret');
+        const sut = makeSut();
         jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
             throw new Error();
         });
