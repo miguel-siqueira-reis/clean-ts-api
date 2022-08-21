@@ -3,12 +3,15 @@
     "module": "commonjs",
     "outDir": "./dist",
     "target": "es2019",
-    "allowJs": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "strict": true
   },
+    "include": [
+        "src"
+    ],
   "exclude": [
-    "node_modules"
+    "**/*.test.ts",
+    "**/*.spec.ts"
   ]
 }
