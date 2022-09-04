@@ -7,6 +7,7 @@
     "start": "node dist/Main/server.js",
     "build": "rimraf dist && tsc",
     "dev": "sucrase-node src/Main/server.ts",
+    "prepare": "husky install",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:all": "jest --passWithNoTests --runInBand",
     "test:unit": "yarn test -- --watch -c jest-unit.config.ts",
